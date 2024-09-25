@@ -1,5 +1,7 @@
 package pa3;
 
+import javax.swing.tree.TreeNode;
+
 /**
  * A binary tree class that stores integers.
  * 
@@ -13,12 +15,11 @@ package pa3;
 public class BinaryTree {
 
     private Node root;
-
     /**
      * Constructs an empty binary tree.
      */
     public BinaryTree() {
-        
+        this.root = null;
     }
 
     /**
@@ -34,15 +35,28 @@ public class BinaryTree {
      * @return the level order traversal of the tree.
      */
     public String levelOrderTraversal() {
-        
+        String str = "";
+        Node current = this.root;
+        return levelOrderTraversalHelper(current, str);
     }
 
     /** 
      * Helper method for levelOrderTraversal that takes a node as an argument.
      */
     private String levelOrderTraversalHelper(Node node, String result) {
-        
-
+        if (node == null)
+            return "";
+        Queue queue = new Queue();
+        queue.enqueue(node);
+        while (queue.isEmpty() != true){
+            Node current = queue.dequeue();
+            result = result + current.value + " ";
+            if (current.left != null){
+                queue.enqueue(current.left);}
+            if (current.right != null){
+                queue.enqueue(current.right);}
+        }
+        return result;
     }
 
     /**
@@ -55,8 +69,30 @@ public class BinaryTree {
      * @param value the value to add to the tree.
      */
     public void add(int value) {
-
-
+        Node newnode = new Node(value);
+        if (this.root == null){
+            this.root = newnode;
+            return;
+        }
+        Queue queue = new Queue();
+        queue.enqueue(this.root);
+        while (queue.isEmpty() != true){
+            Node current =  queue.dequeue();
+            if (current.left == null){
+                current.left = newnode;
+                return;
+            }
+           else{
+            queue.enqueue(current.left);
+            }
+           if (current.right == null){
+                current.right = newnode;
+                return;
+            }
+           else{
+            queue.enqueue(current.right);
+            }
+        }
     }
 
     /** 
@@ -78,20 +114,43 @@ public class BinaryTree {
      * 
      */
     public void invert() {
-
+        if (this.root == null) 
+            return;
+        Queue queue = new Queue();
+        queue.enqueue(this.root);
+        while (queue.isEmpty() != true){
+            Node current = queue.dequeue();
+            Node temp = current.left;
+            current.left = current.right;
+            current.right = temp;
+            if (current.left != null){
+                queue.enqueue(current.left); 
+            }
+            if (current.right != null){
+                queue.enqueue(current.right);
+            }
+        }
        
     }
 
     public int getHeight() {
-        
+        return getHeightHelper(this.root);
     }
 
     /** Counts the height of the tree 
      *  Height is defined as the number of edges in the longest path from the root to a leaf node. 
      */
     private int getHeightHelper(Node node) {
-
-        
+        if (node == null){
+            return -1;
+        }
+        int leftheight = getHeightHelper(node.left);
+        int rightheight = getHeightHelper(node.right);
+        if (leftheight > rightheight){
+            return leftheight + 1;
+        }
+        else{
+            return rightheight + 1;}
     }
 
     public static void main(String[] args) {

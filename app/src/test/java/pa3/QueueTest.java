@@ -16,4 +16,31 @@ public class QueueTest {
         assertEquals(node1, queue.dequeue());
     }
 
+    @Test
+    public void testDequeue() {
+        Queue queue = new Queue();
+        Node node1 = new Node(3);
+        Node node2 = new Node(2);
+        queue.enqueue(node1);
+        queue.enqueue(node2);
+        assertEquals(node1, queue.dequeue());
+        assertEquals(node2, queue.dequeue());
+    }
+
+    @Test
+    public void testIsEmpty() {
+        Queue queue = new Queue();
+        Node node1 = new Node(3);
+        Node node2 = new Node(2);
+        queue.enqueue(node1);
+        queue.enqueue(node2);
+        assertEquals(node1, queue.dequeue());
+        assertEquals(node2, queue.dequeue());
+        assertEquals(queue.isEmpty(), true);
+    }
+
+
+
+
+
 }
